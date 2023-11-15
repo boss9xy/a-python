@@ -1,52 +1,30 @@
 import os
-
 import threading
-
 import PyPDF2
-
-import re  
-
+import re
 import datetime
-
 import openai
-
+from flask import Flask, render_template, request, jsonify
 import tkinter as tk
-
 import logging
-
 import requests
-
 from tqdm import tqdm
-
 from tkinter import filedialog
-
 from tkinter import simpledialog
-
 from tkinter import messagebox
-
 from tkinter.scrolledtext import ScrolledText
-
 from io import StringIO
-
-from nltk.corpus import wordnet 
-
+from nltk.corpus import wordnet
 import sys
-
 import time
-
 import nltk
-
 import codecs
-
 import random
 
-
-
-api_key = "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"  
-
+api_key = "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"
 openai.api_key = api_key
 
-
+app = Flask(__name__)
 
 class RedirectText:
 
@@ -409,6 +387,22 @@ def summarize_pdf():
 
       root.update()
 
+    return jsonify({"summary": summary, "token_sent": num_tokens_sent, "token_received": num_tokens_received,
+                    "total_cost_vnd": total_cost_vnd, "total_pages_processed": i, "total_tokens_used": total_token_used})
+
+
+# New Flask route for rendering the HTML page
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+# New Flask route for handling form submission
+@app.route("/summarize", methods=["POST"])
+def summarize():
+    result = summarize_pdf()
+    return render_template("result.html", result=result)
+
+
 
 
   
@@ -454,3 +448,6 @@ summarize_button.pack(side=tk.LEFT, padx=10)
 
 
 root.mainloop()
+
+if __name__ == "__main__":
+    app.run(debug=True)
