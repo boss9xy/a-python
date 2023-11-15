@@ -1,3 +1,12 @@
 {
-  "redirects": [{ "source": "/", "destination": "/api" }]
+  "version": 2,
+  "env": {
+    "requirements": "./requirements.txt"
+  },
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/api"
+    }
+  ]
 }
