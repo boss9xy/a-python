@@ -4,9 +4,18 @@
     "requirements": "./requirements.txt"
   },
   "redirects": [
+  {
+  "version": 2,
+  "builds": [
     {
-      "source": "/",
-      "destination": "/api"
+      "src": "app.py",
+      "use": "@now/python"
     }
-  ]
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/app.py"
+    }
+  }
 }
